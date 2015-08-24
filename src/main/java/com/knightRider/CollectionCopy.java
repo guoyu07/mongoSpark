@@ -9,9 +9,13 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.bson.BSONObject;
 
 public class CollectionCopy {
+
     public static void main(String[] args) {
-        JavaSparkContext sc = new JavaSparkContext(new SparkConf().setAppName("SparkNode")
-                .setMaster("local[*]"));
+
+        JavaSparkContext sparkContext = new ContextInitializer(
+                                                    ContextInitializer.STANDALONE_MODE,
+                                                    "demo application"
+                                            ).getSparkContext();
 
         // Set configuration options for the MongoDB Hadoop Connector.
         Configuration mongodbConfig = new Configuration();
@@ -28,7 +32,7 @@ public class CollectionCopy {
                 "mongodb://localhost:27017/marketdata.minibars");
 
         // Create an RDD backed by the MongoDB collection.
-        JavaPairRDD<Object, BSONObject> documents = sc.newAPIHadoopRDD(
+        JavaPairRDD<Object, BSONObject> documents = sparkContext.newAPIHadoopRDD(
                 mongodbConfig,            // Configuration
                 MongoInputFormat.class,   // InputFormat: read from a live cluster.
                 Object.class,             // Key class
