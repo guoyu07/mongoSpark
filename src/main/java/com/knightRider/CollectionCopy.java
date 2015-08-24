@@ -11,7 +11,7 @@ import org.bson.BSONObject;
 public class CollectionCopy {
     public static void main(String[] args) {
         JavaSparkContext sc = new JavaSparkContext(new SparkConf().setAppName("SparkNode")
-                .setMaster("local[4]"));
+                .setMaster("local[*]"));
 
         // Set configuration options for the MongoDB Hadoop Connector.
         Configuration mongodbConfig = new Configuration();
